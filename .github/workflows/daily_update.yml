@@ -3,7 +3,7 @@ name: Daily Newspaper Scraper
 on:
   schedule:
     # This runs at 08:00 AM UTC every day
-    - cron: '0 8 * * *'
+    - cron: '30 2 * * *'
   workflow_dispatch: # Allows you to run it manually with a button
 
 jobs:
