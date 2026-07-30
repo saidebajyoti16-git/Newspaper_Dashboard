@@ -1,0 +1,153 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ProNews | Daily ePaper Dashboard</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            ::-webkit-scrollbar { width: 8px; }
+            ::-webkit-scrollbar-track { background: #f1f1f1; }
+            ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+            ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        </style>
+    </head>
+    <body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden font-sans">
+
+        <aside class="w-72 bg-white border-r border-slate-200 flex flex-col h-full shadow-sm z-10">
+            <div class="p-6 border-b border-slate-100">
+                <h1 class="text-2xl font-bold text-blue-700 tracking-tight flex items-center gap-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5L18.5 7H20"></path></svg>
+                    ProNews
+                </h1>
+                <p class="text-xs text-slate-500 mt-1 font-medium tracking-wide uppercase">Automated Feed • July 30, 2026</p>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4 space-y-2" id="paper-list"></div>
+            
+            <div class="p-4 border-t border-slate-100 text-xs text-slate-400 text-center">
+                Refreshed dynamically from source.
+            </div>
+        </aside>
+
+        <main class="flex-1 flex flex-col h-full relative bg-slate-50">
+            <header class="bg-white px-8 py-5 border-b border-slate-200 flex justify-between items-center shadow-sm z-10">
+                <div>
+                    <h2 id="current-paper-title" class="text-xl font-bold text-slate-800">Select a Newspaper</h2>
+                    <p id="current-paper-subtitle" class="text-sm text-slate-500">Select an option from the sidebar to begin reading.</p>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <label for="date-selector" class="text-sm font-medium text-slate-600">Edition Date:</label>
+                    <select id="date-selector" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-48 p-2.5 shadow-sm outline-none cursor-pointer" disabled>
+                        <option>No data loaded</option>
+                    </select>
+                </div>
+            </header>
+
+            <div class="flex-1 p-6 overflow-hidden flex flex-col">
+                <div id="viewer-container" class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex items-center justify-center relative">
+                    <div class="text-slate-400 flex flex-col items-center gap-3">
+                        <svg class="w-12 h-12 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <p class="font-medium">Viewer Area</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            const db = {"Times of India": [{"date": "29 Jul 2026", "data": "1ZiqyT4nI6aUW5UlAN_rhba5tAy6CvSLy", "type": "embed"}, {"date": "27 Jul 2026", "data": "1UQl9N4y4ZLxqKmXfue_f6HCGFYwSiSRY", "type": "embed"}, {"date": "25 Jul 2026", "data": "1x7Lp1x5w203TxJZgCkoyNe_WcpwskXHh", "type": "embed"}, {"date": "24 Jul 2026", "data": "1gpOiFfxEVOvzbrNQWF-74bySG3UyZDXT", "type": "embed"}, {"date": "23 Jul 2026", "data": "1oQowijhLpWJefzuIVzhv1fMzD_8LRBAk", "type": "embed"}], "Live Mint": [{"date": "29 Jul 2026", "data": "1h7QZYkqCob9qYLIiN0bK_yxiZWs_kaKT", "type": "embed"}, {"date": "27 Jul 2026", "data": "1zDUHD2WHHyDos0XQsXSI-wplaI4vXjgn", "type": "embed"}, {"date": "25 Jul 2026", "data": "1BPAlDWhGh_kVaA1SLYAgEFBqJ_KwhVz6", "type": "embed"}, {"date": "24 Jul 2026", "data": "1r7Mq4PO7jCkeJC-I_qyHG0V0HIP_xSBU", "type": "embed"}, {"date": "23 Jul 2026", "data": "1vUc_zeaTVMUr9WW2_GyUAauFIzndLQuB", "type": "embed"}], "Economic Times": [{"date": "29 Jul 2026", "data": "1OmybXY-Bhb1JBb9YGSB_1tWvvtyoZ5rX", "type": "embed"}, {"date": "27 Jul 2026", "data": "1ihhSYKq-i1megy8dQAW8O8CWYHfYluMV", "type": "embed"}, {"date": "25 Jul 2026", "data": "1Qp2U-vXDkgZDMBfjYxRf7K-h_VdDMA-C", "type": "embed"}, {"date": "24 Jul 2026", "data": "1E_dU3o19Fj73tFHRoUSY7bRS-fXBN_mI", "type": "embed"}, {"date": "23 Jul 2026", "data": "1_wwrRutWdswcPHlcD6Pa-Ei9o_koqEyf", "type": "embed"}], "Hindustan Times": [{"date": "29 Jul 2026", "data": "1LP-WGG6hW3b6QGQG6XCM5vjXm_Jzgyw7", "type": "embed"}, {"date": "27 Jul 2026", "data": "1v3ZtWFCrTMT0dJtR53hpKLreIPsOnwDl", "type": "embed"}, {"date": "25 Jul 2026", "data": "1zOimdpDvqv3wupBxgcPEqROHCfnjaF1M", "type": "embed"}, {"date": "24 Jul 2026", "data": "1LmTs9nDsWlxh4to5vHAw-BrgJzDIJh81", "type": "embed"}, {"date": "23 Jul 2026", "data": "1eCioxFmb0R3GOSc-7y6tqZacwNVqLAHT", "type": "embed"}]};
+            let currentPaper = null;
+
+            const paperListEl = document.getElementById('paper-list');
+            const titleEl = document.getElementById('current-paper-title');
+            const subtitleEl = document.getElementById('current-paper-subtitle');
+            const dateSelectorEl = document.getElementById('date-selector');
+            const viewerContainerEl = document.getElementById('viewer-container');
+
+            Object.keys(db).forEach(paperName => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-transparent hover:border-blue-100 flex justify-between items-center group';
+                btn.innerHTML = `
+                    ${paperName}
+                    <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                `;
+                btn.onclick = () => loadPaper(paperName, btn);
+                paperListEl.appendChild(btn);
+            });
+
+            function loadPaper(paperName, activeBtn) {
+                currentPaper = paperName;
+                
+                document.querySelectorAll('#paper-list button').forEach(b => {
+                    b.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-100');
+                    b.querySelector('svg').classList.remove('opacity-100');
+                });
+                activeBtn.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-100');
+                activeBtn.querySelector('svg').classList.add('opacity-100');
+
+                titleEl.textContent = paperName;
+                subtitleEl.textContent = "Verified archival editions available below.";
+
+                const editions = db[paperName];
+                
+                if (!editions || editions.length === 0) {
+                    dateSelectorEl.innerHTML = '<option>No verified dates found</option>';
+                    dateSelectorEl.disabled = true;
+                    showError("No explicitly dated editions have been scraped yet.");
+                    return;
+                }
+
+                dateSelectorEl.disabled = false;
+                dateSelectorEl.innerHTML = '';
+                editions.forEach((edition, index) => {
+                    const opt = document.createElement('option');
+                    opt.value = index;
+                    opt.textContent = edition.date;
+                    dateSelectorEl.appendChild(opt);
+                });
+
+                renderViewer(editions[0]);
+            }
+
+            dateSelectorEl.addEventListener('change', (e) => {
+                if(currentPaper && db[currentPaper]) {
+                    const selectedIndex = e.target.value;
+                    renderViewer(db[currentPaper][selectedIndex]);
+                }
+            });
+
+            function renderViewer(editionData) {
+                if (editionData.type === 'embed') {
+                    const url = `https://drive.google.com/file/d/${editionData.data}/preview`;
+                    viewerContainerEl.innerHTML = `<iframe src="${url}" allow="autoplay" class="w-full h-full border-0 absolute inset-0 rounded-xl"></iframe>`;
+                } else if (editionData.type === 'external') {
+                    viewerContainerEl.innerHTML = `
+                        <div class="text-center p-8">
+                            <div class="bg-blue-50 text-blue-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-2">External Link Required</h3>
+                            <p class="text-slate-500 mb-6 max-w-md mx-auto">This specific edition requires you to pass through a protective gateway before viewing. Click below to open it safely.</p>
+                            <a href="${editionData.data}" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+                                Access Edition Source
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                        </div>
+                    `;
+                }
+            }
+
+            function showError(msg) {
+                viewerContainerEl.innerHTML = `
+                    <div class="text-center text-red-500 p-8 bg-red-50 rounded-lg">
+                        <svg class="w-12 h-12 mx-auto mb-3 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <p class="font-semibold">${msg}</p>
+                    </div>
+                `;
+            }
+        </script>
+    </body>
+    </html>
+    
