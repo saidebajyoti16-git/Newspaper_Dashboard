@@ -21,7 +21,7 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5L18.5 7H20"></path></svg>
                     ProNews
                 </h1>
-                <p class="text-xs text-slate-500 mt-1 font-medium tracking-wide uppercase">Automated Feed • August 05, 2026</p>
+                <p class="text-xs text-slate-500 mt-1 font-medium tracking-wide uppercase">Automated Feed • August 06, 2026</p>
             </div>
             
             <div class="flex-1 overflow-y-auto p-4 space-y-2" id="paper-list"></div>
@@ -57,7 +57,7 @@
         </main>
 
         <script>
-            const db = {"Times of India": [], "Live Mint": [], "Economic Times": [], "Hindustan Times": []};
+            const db = {"Times of India": [{"date": "06 Aug 2026", "data": "1oWVhsOyT7fEAeF_TRILBk2-43OnjjAzW", "type": "embed"}, {"date": "05 Aug 2026", "data": "1XlQI3hZ99tCuGCOlJOvvbOsQFk6YpqRp", "type": "embed"}, {"date": "04 Aug 2026", "data": "1FoT1DPO1H6if3OCWukOKKq8HAjoHsCmd", "type": "embed"}, {"date": "03 Aug 2026", "data": "1tit9skD-5fMkgbqROeMnfd29VddsaHWC", "type": "embed"}, {"date": "01 Aug 2026", "data": "1b2lDESwHLXWGAtAPMcLpKbew7KS-6AG_", "type": "embed"}], "Live Mint": [{"date": "06 Aug 2026", "data": "1Un_dJRU0fRZWUYY-ROocptQ-Pz_BYEdB", "type": "embed"}, {"date": "05 Aug 2026", "data": "1YU3GxUlST07PJdfkEqxkY5Xrw2wNWWho", "type": "embed"}, {"date": "04 Aug 2026", "data": "18b6lM0Mb-Vt1d7IyMYpfl6M0zwOtMwaX", "type": "embed"}, {"date": "03 Aug 2026", "data": "1HCGhBxs2skBKb0YVFusrrlIpkI44kEec", "type": "embed"}, {"date": "01 Aug 2026", "data": "14qfL2gAHWdpqugEKusw0qEtz0hNF3CRb", "type": "embed"}], "Economic Times": [{"date": "06 Aug 2026", "data": "1g1f1okCsaMZgZtsxfyEzprClEShqcWyL", "type": "embed"}, {"date": "05 Aug 2026", "data": "1vU6itjukzBUdKNQtLvPrhA5VlM4y8AXM", "type": "embed"}, {"date": "04 Aug 2026", "data": "1VcC1rypcN8fi98qSAl6Z2HtCEIS4gCAq", "type": "embed"}, {"date": "03 Aug 2026", "data": "1mxbOLacQ4lsgzII0jiym8CuWLiWpZqja", "type": "embed"}, {"date": "01 Aug 2026", "data": "1PCMG0WH56f-VEKounoF_h6WwVT5YpS61", "type": "embed"}], "Hindustan Times": [{"date": "06 Aug 2026", "data": "1SkO-zWHb_ueLalmFL_ajJj9TvFpgC5h2", "type": "embed"}, {"date": "05 Aug 2026", "data": "1vpCoVitl4aPjuvzWiMwXcYBQMwZdyGK_", "type": "embed"}, {"date": "04 Aug 2026", "data": "1IUyFX9SCmJlEuI6nYQVj4_dSTup246Kj", "type": "embed"}, {"date": "03 Aug 2026", "data": "1vrg5aod5v7y0fBb-asYEqQetPx_jxadN", "type": "embed"}, {"date": "01 Aug 2026", "data": "1YQsMCe7VGSjcHXnYTVMOYPoz36A3WUks", "type": "embed"}]};
             let currentPaper = null;
 
             const paperListEl = document.getElementById('paper-list');
